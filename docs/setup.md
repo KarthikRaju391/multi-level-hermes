@@ -67,8 +67,8 @@ If you want Discord as the chat gateway, use [`docs/discord-gateway.md`](discord
 Recommended starting point:
 
 - one private Discord server
-- one bot per Hermes profile
-- profile-specific channel permissions
+- one `Hermes` bot that routes to separate Hermes profiles
+- channel/prefix-based routing
 - Markdown memory as the source of truth
 - short Discord notifications instead of raw email/ticket dumps
 

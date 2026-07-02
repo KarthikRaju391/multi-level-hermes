@@ -4,40 +4,45 @@ Use Discord as the communication layer, not the source of truth. Hermes should w
 
 ## Recommended shape
 
-Create one private Discord server, for example `Hermes Command`, with separate categories for personal, work, insights, and ops.
+Create **one private Discord server** and **one Discord bot** named `Hermes`.
 
-Use **three Discord bot applications** if your Hermes deployment can run one gateway per profile:
+The bot is a gateway/router. It is not one blended profile. When you tag `@Hermes`, the gateway chooses the correct Hermes profile based on the channel or an explicit prefix:
 
-- `Hermes Personal`
-- `Hermes Work`
-- `Hermes Insights`
-
-This is slightly more setup than one bot, but it gives a clearer safety boundary: each bot can only see the channels for its profile.
+- personal channels route to the `personal` Hermes profile
+- work channels route to the `work` Hermes profile
+- insights channels route to the `insights` Hermes profile
 
 ```diagram
 ╭──────────────────────╮
 │ Discord server        │
 │ Hermes Command        │
-╰──────┬────────┬───────╯
-       │        │
-       ▼        ▼
-╭────────────╮  ╭────────────╮
-│ Personal   │  │ Work       │
-│ bot        │  │ bot        │
-╰─────┬──────╯  ╰─────┬──────╯
-      │               │
-      ▼               ▼
-memory/personal   memory/work
-      │               │
-      ╰───────┬───────╯
-              ▼
-       ╭────────────╮
-       │ Insights   │
-       │ bot        │
-       ╰─────┬──────╯
-             ▼
-      memory/insights
+╰──────────┬───────────╯
+           ▼
+╭──────────────────────╮
+│ @Hermes bot           │
+│ channel/profile router│
+╰──────┬───────┬───────╯
+       │       │
+       ▼       ▼
+╭──────────╮  ╭──────────╮
+│ personal │  │ work     │
+│ profile  │  │ profile  │
+╰────┬─────╯  ╰────┬─────╯
+     │             │
+     ▼             ▼
+memory/personal  memory/work
+     │             │
+     ╰──────┬──────╯
+            ▼
+      ╭──────────╮
+      │ insights │
+      │ profile  │
+      ╰────┬─────╯
+           ▼
+    memory/insights
 ```
+
+This is the simplest daily-use setup: one bot to tag, but still separate Hermes profiles behind it.
 
 ## Channel layout
 
@@ -64,15 +69,33 @@ Hermes Command
     └── #boundary-alerts
 ```
 
-## Permission matrix
+## Routing rules
 
-| Bot | Can read/write | Should not see |
+Preferred routing is channel-based:
+
+| Channel | Routed profile | Example |
 | --- | --- | --- |
-| `Hermes Personal` | `#personal-chat`, `#personal-radar`, `#personal-daily` | work channels |
-| `Hermes Work` | `#work-chat`, `#work-radar`, `#work-tickets`, `#work-approvals` | personal channels |
-| `Hermes Insights` | insights channels, plus summary-only personal/work radar channels if needed | raw personal/work chat channels |
+| `#personal-chat` | `personal` | `@Hermes help me plan this side project` |
+| `#personal-radar` | `personal` | `@Hermes summarize personal email radar` |
+| `#work-chat` | `work` | `@Hermes help me plan this ticket` |
+| `#work-radar` | `work` | `@Hermes what changed in work email?` |
+| `#work-tickets` | `work` | `@Hermes summarize assigned tickets` |
+| `#daily-review` | `insights` | `@Hermes what affected focus today?` |
+| `#weekly-review` | `insights` | `@Hermes summarize the week` |
 
-Keep bot permissions minimal:
+If you use `#route-to-profile`, require prefixes:
+
+```text
+p: plan my personal writing project
+w: summarize my current ticket load
+i: what affected my focus today?
+```
+
+Ambiguous write/action requests should not be routed automatically. The bot should ask which profile owns the request.
+
+## Bot permissions
+
+Keep the single bot's Discord permissions minimal:
 
 - View Channel
 - Send Messages
@@ -88,23 +111,20 @@ Do not grant by default:
 - Manage Messages
 - Mention Everyone
 
-## Routing rules
+Because this is one bot, Discord itself is not the hard isolation boundary. The boundary comes from the gateway router plus the Hermes profile rules. If you later need stronger isolation, split this into separate bots per profile.
 
-Preferred routing is explicit:
+## Gateway dispatch contract
 
-- Mention `@Hermes Personal` in personal channels.
-- Mention `@Hermes Work` in work channels.
-- Mention `@Hermes Insights` in insights channels.
+For every Discord message, the gateway should:
 
-If you use `#route-to-profile`, require prefixes:
-
-```text
-p: plan my personal writing project
-w: summarize my current ticket load
-i: what affected my focus today?
-```
-
-Ambiguous write/action requests should not be routed automatically. The bot should ask which profile owns the request.
+1. Resolve exactly one target profile from channel or prefix.
+2. Start or continue the conversation under that Hermes profile only.
+3. Load only that profile's `SOUL.md`, tools, and memory rules.
+4. Enforce profile-specific write paths:
+   - `personal` writes only `memory/personal/**`
+   - `work` writes only `memory/work/**`
+   - `insights` writes only `memory/insights/**`
+5. Refuse or clarify if the request crosses contexts in a way that could leak or mutate data.
 
 ## Radar job output policy
 
@@ -128,21 +148,19 @@ Do not post raw email bodies, raw ticket histories, or sensitive personal/work d
 
 Only route work summaries through Discord if your work policy allows it. If work data should not leave approved systems, keep `#work-radar` messages generic and store details only in your local/private memory files.
 
-## One-bot fallback
+## Stricter option later
 
-If your Hermes deployment only supports one Discord gateway bot, use one bot named `Hermes Router` and enforce channel-to-profile routing in config.
-
-The fallback is simpler but weaker: the bot account can technically see all allowed channels, so the safety boundary depends more on software routing. Prefer three bots when possible.
+If you later need a stronger Discord-level permission boundary, split the gateway into separate bot applications per profile. That lets Discord channel permissions enforce bot-level separation. It is safer but more annoying day to day, so it is not the default starter setup.
 
 ## Setup sequence
 
 1. Create the private Discord server.
 2. Create categories and channels from the layout above.
-3. Create one Discord application/bot per profile.
-4. Invite each bot only to the channels it needs.
-5. Store bot tokens and channel IDs in local config or Hermes profile secrets, never in git.
-6. Run one Hermes gateway process per profile, each with its profile-specific token.
+3. Create one Discord application/bot named `Hermes`.
+4. Invite the bot with minimal permissions.
+5. Store the bot token and channel IDs in local config or Hermes profile secrets, never in git.
+6. Run one Discord gateway process that routes messages to Hermes profiles by channel/prefix.
 7. Send test prompts:
-   - Personal bot: “Show me work radar.” Expected: refuse.
-   - Work bot: “Summarize personal inbox.” Expected: refuse.
-   - Insights bot: “What affected focus today?” Expected: read summaries only.
+   - In `#personal-chat`: “@Hermes show me work radar.” Expected: refuse or ask to switch to a work channel.
+   - In `#work-chat`: “@Hermes summarize personal inbox.” Expected: refuse or ask to switch to a personal channel.
+   - In `#daily-review`: “@Hermes what affected focus today?” Expected: read summaries only.

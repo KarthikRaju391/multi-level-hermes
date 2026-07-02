@@ -3,54 +3,16 @@
 
 gateway:
   provider: discord
+  mode: single_bot_router
   source_of_truth: markdown
   default_action_policy: read_only
 
 discord:
   server_name: Hermes Command
 
-  bots:
-    personal:
-      display_name: Hermes Personal
-      profile: personal
-      token_env: DISCORD_PERSONAL_BOT_TOKEN
-      allowed_channels:
-        - personal-chat
-        - personal-radar
-        - personal-daily
-      denied_scopes:
-        - work
-
-    work:
-      display_name: Hermes Work
-      profile: work
-      token_env: DISCORD_WORK_BOT_TOKEN
-      allowed_channels:
-        - work-chat
-        - work-radar
-        - work-tickets
-        - work-approvals
-      denied_scopes:
-        - personal
-
-    insights:
-      display_name: Hermes Insights
-      profile: insights
-      token_env: DISCORD_INSIGHTS_BOT_TOKEN
-      allowed_channels:
-        - daily-review
-        - weekly-review
-        - patterns
-        - personal-radar
-        - personal-daily
-        - work-radar
-        - work-tickets
-      write_channels:
-        - daily-review
-        - weekly-review
-        - patterns
-      denied_actions:
-        - external_writes
+  bot:
+    display_name: Hermes
+    token_env: DISCORD_HERMES_BOT_TOKEN
 
   channel_ids:
     # Fill locally after creating channels.
@@ -69,10 +31,44 @@ discord:
     cron_log: "000000000000000000"
     boundary_alerts: "000000000000000000"
 
-  routing_prefixes:
-    personal: "p:"
-    work: "w:"
-    insights: "i:"
+  channel_profile_map:
+    personal_chat: personal
+    personal_radar: personal
+    personal_daily: personal
+    work_chat: work
+    work_radar: work
+    work_tickets: work
+    work_approvals: work
+    daily_review: insights
+    weekly_review: insights
+    patterns: insights
+
+  router_channel:
+    channel: route_to_profile
+    required_prefixes:
+      personal: "p:"
+      work: "w:"
+      insights: "i:"
+
+  profile_boundaries:
+    personal:
+      allowed_write_roots:
+        - ./memory/personal
+      denied_scopes:
+        - work
+    work:
+      allowed_write_roots:
+        - ./memory/work
+      denied_scopes:
+        - personal
+    insights:
+      allowed_read_roots:
+        - ./memory/personal
+        - ./memory/work
+      allowed_write_roots:
+        - ./memory/insights
+      denied_actions:
+        - external_writes
 
   minimal_permissions:
     allow:
