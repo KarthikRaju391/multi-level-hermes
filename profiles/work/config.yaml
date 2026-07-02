@@ -1,0 +1,18 @@
+# Starter Hermes config for the work profile.
+# Copy this directory to ~/.hermes/profiles/work/ or use HERMES_HOME.
+
+terminal:
+  backend: local
+  cwd: .
+
+skills:
+  external_dirs: []
+
+# Recommended minimal toolsets for this profile:
+# - file
+# - skills
+# - web/search only if needed for work research
+# - read-only work email integration, if available
+# - read-only Linear/ClickUp integration, if available
+#
+# Do not enable send/post/edit/delete permissions in the starter phase.

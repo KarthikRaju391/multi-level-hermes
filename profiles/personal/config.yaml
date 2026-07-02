@@ -1,0 +1,17 @@
+# Starter Hermes config for the personal profile.
+# Copy this directory to ~/.hermes/profiles/personal/ or use HERMES_HOME.
+
+terminal:
+  backend: local
+  cwd: .
+
+skills:
+  external_dirs: []
+
+# Recommended minimal toolsets for this profile:
+# - file
+# - skills
+# - web/search only if needed
+# - read-only personal email integration, if available in your Hermes setup
+#
+# Do not enable destructive email/calendar/tool permissions in the starter phase.

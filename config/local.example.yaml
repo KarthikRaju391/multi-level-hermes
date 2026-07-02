@@ -1,0 +1,28 @@
+# Copy to config/local.yaml and edit locally. config/local.yaml is gitignored.
+
+memory_root: ./memory
+
+profiles:
+  personal:
+    memory_scope: personal
+    allowed_write_roots:
+      - ./memory/personal
+
+  work:
+    memory_scope: work
+    allowed_write_roots:
+      - ./memory/work
+
+  insights:
+    memory_scope: insights
+    allowed_read_roots:
+      - ./memory/personal
+      - ./memory/work
+    allowed_write_roots:
+      - ./memory/insights
+
+cron:
+  work_email_radar: "every 1h"
+  personal_email_radar: "every 4h"
+  work_ticket_radar: "every 1h"
+  daily_insights: "every day at 18:00"

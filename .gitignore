@@ -1,0 +1,34 @@
+# Secrets and machine-local config
+.env
+.env.*
+!.env.example
+profiles/*/.env
+profiles/*/.env.*
+!profiles/*/.env.example
+config/local.yaml
+
+# Runtime memory and generated Hermes state
+/memory/
+/.local/
+/.hermes/
+/runtime/
+
+# OAuth/session caches
+/tokens/
+/oauth-cache/
+/gmail-export/
+/work-email-export/
+/personal-email-export/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+.DS_Store
+node_modules/
+__pycache__/
+.pytest_cache/
+
+# Keep this repo GBrain-free at the starter stage
+/.gbrain/
+/gbrain-data/

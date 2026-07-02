@@ -1,0 +1,26 @@
+provider: linear # or clickup
+access: read_only
+
+watched:
+  assigned_to_me: true
+  mentioned_me: true
+  subscribed: true
+  changed_since_last_run: true
+
+exclude:
+  closed_older_than_days: 7
+  archived: true
+
+summarize:
+  max_items_per_run: 50
+  store_raw_content: false
+  store_source_pointers: true
+
+priority_signals:
+  - assigned_to_me
+  - due_soon
+  - blocker
+  - customer_reported
+  - priority_urgent
+  - status_changed
+  - new_comment_by_lead

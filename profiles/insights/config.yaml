@@ -1,0 +1,16 @@
+# Starter Hermes config for the insights profile.
+# Copy this directory to ~/.hermes/profiles/insights/ or use HERMES_HOME.
+
+terminal:
+  backend: local
+  cwd: .
+
+skills:
+  external_dirs: []
+
+# Recommended minimal toolsets for this profile:
+# - file
+# - skills
+#
+# Do not enable external account mutation tools. This profile should normally
+# read Markdown summaries, not raw account integrations.

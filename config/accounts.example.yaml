@@ -1,0 +1,47 @@
+# Example only. Keep real account IDs and credentials in config/local.yaml,
+# Hermes integration settings, or a secret manager.
+
+accounts:
+  personal_email:
+    type: gmail
+    scope: personal
+    access: read_only
+    account_label: personal@example.com
+    allowed_operations:
+      - search
+      - read_thread
+    denied_operations:
+      - send
+      - archive
+      - delete
+      - label_modify
+
+  work_email:
+    type: gmail_or_outlook
+    scope: work
+    access: read_only
+    account_label: you@company.com
+    allowed_operations:
+      - search
+      - read_thread
+    denied_operations:
+      - send
+      - archive
+      - delete
+      - label_modify
+
+  work_tickets:
+    type: linear_or_clickup
+    scope: work
+    access: read_only
+    workspace_label: company-workspace
+    allowed_operations:
+      - list_assigned
+      - read_ticket
+      - search
+    denied_operations:
+      - create
+      - comment
+      - assign
+      - close
+      - change_status

@@ -1,0 +1,4 @@
+name: personal-minimal
+description: Minimal personal profile skills for read-only email radar and Markdown memory.
+skills:
+  - personal-email-radar

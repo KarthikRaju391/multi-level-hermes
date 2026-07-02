@@ -1,0 +1,5 @@
+name: work-minimal
+description: Minimal work profile skills for read-only email/ticket radar and Markdown memory.
+skills:
+  - work-email-radar
+  - work-ticket-radar

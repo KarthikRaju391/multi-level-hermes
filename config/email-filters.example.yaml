@@ -1,0 +1,48 @@
+# Starter filters for radar jobs. Tune locally before widening scope.
+
+personal_email:
+  include:
+    primary_inbox: true
+    important: true
+    direct_to_me: true
+    from_contacts: true
+  exclude:
+    promotions: true
+    social: true
+    newsletters_by_default: true
+    noreply: true
+  summarize:
+    max_threads_per_run: 25
+    store_raw_content: false
+    store_source_pointers: true
+
+work_email:
+  include:
+    direct_to_me: true
+    cc_me: true
+    from_team: true
+    from_manager_or_leads: true
+    from_clients_or_external_partners: true
+    mentions_ticket_ids: true
+    mentions_watched_projects: true
+  exclude:
+    automated_notifications_by_default: true
+    newsletters_by_default: true
+    noreply: true
+  summarize:
+    max_threads_per_run: 40
+    store_raw_content: false
+    store_source_pointers: true
+
+priority_terms:
+  - blocker
+  - blocked
+  - urgent
+  - escalation
+  - deadline
+  - due today
+  - due tomorrow
+  - waiting on you
+  - approval needed
+  - customer impact
+  - incident

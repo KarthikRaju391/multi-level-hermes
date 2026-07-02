@@ -1,0 +1,4 @@
+name: insights-minimal
+description: Minimal insights profile skills for cross-context reflection over Markdown summaries.
+skills:
+  - daily-cross-context-review
