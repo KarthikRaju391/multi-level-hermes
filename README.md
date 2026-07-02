@@ -51,6 +51,24 @@ The starter deliberately uses **Hermes profiles + read-only radar jobs + Markdow
 
 ## Quick start
 
+On a new machine, clone the repo and run the installer:
+
+```bash
+git clone https://github.com/KarthikRaju391/multi-level-hermes.git
+cd multi-level-hermes
+./scripts/install.sh
+```
+
+The installer installs Hermes if needed, creates local config/memory, installs the profile templates, verifies the boundaries, and dry-runs cron creation.
+
+If Hermes is already installed and you only want the starter setup:
+
+```bash
+./scripts/install.sh --skip-hermes-install
+```
+
+Manual bootstrap is also available:
+
 ```bash
 cp .env.example .env
 cp config/local.example.yaml config/local.yaml

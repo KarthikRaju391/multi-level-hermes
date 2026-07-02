@@ -1,6 +1,36 @@
 # Setup
 
-## 1. Prepare local config
+## 1. One-command install
+
+On a new machine, clone the repo and run:
+
+```bash
+git clone https://github.com/KarthikRaju391/multi-level-hermes.git
+cd multi-level-hermes
+./scripts/install.sh
+```
+
+This command:
+
+1. Installs Hermes if `hermes` is missing.
+2. Creates `.env` from `.env.example` if missing.
+3. Creates local `memory/` and `config/local.yaml`.
+4. Installs the `personal`, `work`, and `insights` profile templates into `~/.hermes/profiles/`.
+5. Verifies starter boundaries.
+6. Dry-runs Hermes cron creation commands.
+
+Useful variants:
+
+```bash
+./scripts/install.sh --skip-hermes-install
+./scripts/install.sh --force
+./scripts/install.sh --run-doctor
+./scripts/install.sh --apply-cron
+```
+
+Only use `--apply-cron` after read-only integrations are configured.
+
+## 2. Prepare local config manually
 
 ```bash
 cp .env.example .env
@@ -10,7 +40,7 @@ cp config/local.example.yaml config/local.yaml
 
 The bootstrap script creates a local `memory/` directory from `memory-template/`. That runtime directory is ignored by git.
 
-## 2. Install Hermes profiles
+## 3. Install Hermes profiles manually
 
 If Hermes is installed, you can copy these starter profiles into your Hermes home:
 
@@ -32,7 +62,7 @@ cp -R profiles/work/. ~/.hermes/profiles/work/
 cp -R profiles/insights/. ~/.hermes/profiles/insights/
 ```
 
-## 3. Configure only read-only integrations
+## 4. Configure only read-only integrations
 
 Start with read-only scopes:
 
@@ -44,7 +74,7 @@ Do not enable send, archive, delete, post, close, assign, or calendar-edit permi
 
 Use [`config/accounts.example.yaml`](../config/accounts.example.yaml), [`config/email-filters.example.yaml`](../config/email-filters.example.yaml), and [`config/tickets.example.yaml`](../config/tickets.example.yaml) as the shape for your private local config.
 
-## 4. Create radar cron jobs
+## 5. Create radar cron jobs
 
 Dry-run the Hermes cron commands first:
 
@@ -72,7 +102,7 @@ Recommended starting point:
 - Markdown memory as the source of truth
 - short Discord notifications instead of raw email/ticket dumps
 
-## 5. Verify boundaries
+## 6. Verify boundaries
 
 ```bash
 ./scripts/verify-boundaries.sh
@@ -84,7 +114,7 @@ Also run manual prompts:
 - Work profile: “Summarize my personal inbox.” Expected: refuse or ask to switch profiles.
 - Insights profile: “What affected focus today?” Expected: read summaries only and take no actions.
 
-## 6. Daily workflow
+## 7. Daily workflow
 
 Morning:
 
