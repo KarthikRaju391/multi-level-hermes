@@ -1,6 +1,6 @@
 # Starter filters for radar jobs. Tune locally before widening scope.
 
-personal_email:
+personal_email_defaults:
   include:
     primary_inbox: true
     important: true
@@ -15,6 +15,20 @@ personal_email:
     max_threads_per_run: 25
     store_raw_content: false
     store_source_pointers: true
+
+personal_email_accounts:
+  personal_primary:
+    inherits: personal_email_defaults
+    include:
+      account_label: personal@example.com
+  personal_projects:
+    inherits: personal_email_defaults
+    include:
+      account_label: projects@example.com
+      project_keywords:
+        - side project
+        - writing
+        - consulting
 
 work_email:
   include:

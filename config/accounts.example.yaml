@@ -2,19 +2,34 @@
 # Hermes integration settings, or a secret manager.
 
 accounts:
-  personal_email:
-    type: gmail
+  personal_email_accounts:
     scope: personal
     access: read_only
-    account_label: personal@example.com
+    accounts:
+      - id: personal_primary
+        type: gmail
+        account_label: personal@example.com
+        notes: Primary personal inbox.
+      - id: personal_projects
+        type: gmail_or_outlook_or_imap
+        account_label: projects@example.com
+        notes: Optional separate personal projects inbox.
     allowed_operations:
       - search
+      - list_threads
+      - read_message
       - read_thread
     denied_operations:
       - send
+      - reply
+      - forward
       - archive
       - delete
+      - move
+      - mark_read
+      - mark_unread
       - label_modify
+      - flag_modify
 
   work_email:
     type: gmail_or_outlook
@@ -23,12 +38,20 @@ accounts:
     account_label: you@company.com
     allowed_operations:
       - search
+      - list_threads
+      - read_message
       - read_thread
     denied_operations:
       - send
+      - reply
+      - forward
       - archive
       - delete
+      - move
+      - mark_read
+      - mark_unread
       - label_modify
+      - flag_modify
 
   work_tickets:
     type: linear_or_clickup

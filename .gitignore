@@ -6,6 +6,7 @@ profiles/*/.env
 profiles/*/.env.*
 !profiles/*/.env.example
 config/local.yaml
+config/himalaya.local.toml
 
 # Runtime memory and generated Hermes state
 /memory/

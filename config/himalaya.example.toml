@@ -1,0 +1,57 @@
+# Example Himalaya-style multi-account IMAP-only config.
+# Copy into your local mail client config location if you choose this path.
+# Do not commit real account names, passwords, app passwords, or auth commands.
+#
+# Keep this read-only in practice by configuring IMAP only and omitting SMTP / send settings.
+
+[accounts.personal_primary]
+email = "personal@example.com"
+display-name = "Personal Primary"
+default = true
+
+backend.type = "imap"
+backend.host = "imap.gmail.com"
+backend.port = 993
+backend.encryption.type = "tls"
+backend.login = "personal@example.com"
+backend.auth.type = "password"
+backend.auth.cmd = "pass show email/personal_primary_app_password"
+
+folder.aliases.inbox = "INBOX"
+folder.aliases.sent = "[Gmail]/Sent Mail"
+folder.aliases.drafts = "[Gmail]/Drafts"
+folder.aliases.trash = "[Gmail]/Trash"
+
+[accounts.personal_projects]
+email = "projects@example.com"
+display-name = "Personal Projects"
+
+backend.type = "imap"
+backend.host = "imap.gmail.com"
+backend.port = 993
+backend.encryption.type = "tls"
+backend.login = "projects@example.com"
+backend.auth.type = "password"
+backend.auth.cmd = "pass show email/personal_projects_app_password"
+
+folder.aliases.inbox = "INBOX"
+folder.aliases.sent = "[Gmail]/Sent Mail"
+folder.aliases.drafts = "[Gmail]/Drafts"
+folder.aliases.trash = "[Gmail]/Trash"
+
+[accounts.work_primary]
+email = "you@company.com"
+display-name = "Work Primary"
+
+backend.type = "imap"
+backend.host = "imap.gmail.com"
+backend.port = 993
+backend.encryption.type = "tls"
+backend.login = "you@company.com"
+backend.auth.type = "password"
+backend.auth.cmd = "pass show email/work_primary_app_password"
+
+folder.aliases.inbox = "INBOX"
+folder.aliases.sent = "[Gmail]/Sent Mail"
+folder.aliases.drafts = "[Gmail]/Drafts"
+folder.aliases.trash = "[Gmail]/Trash"

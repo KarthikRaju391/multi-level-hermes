@@ -40,6 +40,7 @@ The starter deliberately uses **Hermes profiles + read-only radar jobs + Markdow
 - Example routing, safety, account, and filter config in [`config/`](config/).
 - Bootstrap and verification scripts in [`scripts/`](scripts/).
 - Optional Discord gateway blueprint in [`docs/discord-gateway.md`](docs/discord-gateway.md).
+- Email read-access setup in [`docs/email-read-access.md`](docs/email-read-access.md).
 
 ## What this intentionally does not include
 

@@ -74,6 +74,8 @@ Do not enable send, archive, delete, post, close, assign, or calendar-edit permi
 
 Use [`config/accounts.example.yaml`](../config/accounts.example.yaml), [`config/email-filters.example.yaml`](../config/email-filters.example.yaml), and [`config/tickets.example.yaml`](../config/tickets.example.yaml) as the shape for your private local config.
 
+For multiple personal inboxes and read-only email setup, see [`docs/email-read-access.md`](email-read-access.md).
+
 ## 5. Create radar cron jobs
 
 Dry-run the Hermes cron commands first:
