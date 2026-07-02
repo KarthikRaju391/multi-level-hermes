@@ -82,6 +82,6 @@ Not allowed:
 ╰──────────────────────╯       ╰──────────────────────╯
 ```
 
-## Why not GBrain yet?
+## Why this stays simple
 
-This phase is for validating the safety model and discovering what summaries are useful. Add GBrain only after Markdown summaries become hard to search or the history is large enough to justify entity linking and semantic retrieval.
+This phase is for validating the safety model and discovering what summaries are useful before adding any deeper memory or retrieval layer.

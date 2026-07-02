@@ -1,0 +1,88 @@
+# Copy relevant values into config/local.yaml or your Hermes profile secrets.
+# Do not commit real Discord bot tokens or private channel IDs if the repo is public.
+
+gateway:
+  provider: discord
+  source_of_truth: markdown
+  default_action_policy: read_only
+
+discord:
+  server_name: Hermes Command
+
+  bots:
+    personal:
+      display_name: Hermes Personal
+      profile: personal
+      token_env: DISCORD_PERSONAL_BOT_TOKEN
+      allowed_channels:
+        - personal-chat
+        - personal-radar
+        - personal-daily
+      denied_scopes:
+        - work
+
+    work:
+      display_name: Hermes Work
+      profile: work
+      token_env: DISCORD_WORK_BOT_TOKEN
+      allowed_channels:
+        - work-chat
+        - work-radar
+        - work-tickets
+        - work-approvals
+      denied_scopes:
+        - personal
+
+    insights:
+      display_name: Hermes Insights
+      profile: insights
+      token_env: DISCORD_INSIGHTS_BOT_TOKEN
+      allowed_channels:
+        - daily-review
+        - weekly-review
+        - patterns
+        - personal-radar
+        - personal-daily
+        - work-radar
+        - work-tickets
+      write_channels:
+        - daily-review
+        - weekly-review
+        - patterns
+      denied_actions:
+        - external_writes
+
+  channel_ids:
+    # Fill locally after creating channels.
+    route_to_profile: "000000000000000000"
+    personal_chat: "000000000000000000"
+    personal_radar: "000000000000000000"
+    personal_daily: "000000000000000000"
+    work_chat: "000000000000000000"
+    work_radar: "000000000000000000"
+    work_tickets: "000000000000000000"
+    work_approvals: "000000000000000000"
+    daily_review: "000000000000000000"
+    weekly_review: "000000000000000000"
+    patterns: "000000000000000000"
+    gateway_status: "000000000000000000"
+    cron_log: "000000000000000000"
+    boundary_alerts: "000000000000000000"
+
+  routing_prefixes:
+    personal: "p:"
+    work: "w:"
+    insights: "i:"
+
+  minimal_permissions:
+    allow:
+      - View Channel
+      - Send Messages
+      - Read Message History
+      - Use Application Commands
+    deny:
+      - Administrator
+      - Manage Channels
+      - Manage Webhooks
+      - Manage Messages
+      - Mention Everyone

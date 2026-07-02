@@ -60,6 +60,18 @@ Apply them when the commands look right for your Hermes CLI version:
 
 The cron jobs call the skills in each profile and write Markdown summaries under `memory/`.
 
+## Optional: Discord gateway
+
+If you want Discord as the chat gateway, use [`docs/discord-gateway.md`](discord-gateway.md) and [`config/discord.example.yaml`](../config/discord.example.yaml).
+
+Recommended starting point:
+
+- one private Discord server
+- one bot per Hermes profile
+- profile-specific channel permissions
+- Markdown memory as the source of truth
+- short Discord notifications instead of raw email/ticket dumps
+
 ## 5. Verify boundaries
 
 ```bash

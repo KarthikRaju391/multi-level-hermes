@@ -1,6 +1,6 @@
 # Multi-level Hermes starter
 
-This repo is a minimal, GBrain-free starter for running Hermes with three separated contexts:
+This repo is a minimal starter for running Hermes with three separated contexts:
 
 - **Personal** — personal projects, life admin, personal email summaries.
 - **Work** — work email/ticket summaries, work planning, execution context.
@@ -39,10 +39,10 @@ The starter deliberately uses **Hermes profiles + read-only radar jobs + Markdow
 - Markdown memory templates in [`memory-template/`](memory-template/).
 - Example routing, safety, account, and filter config in [`config/`](config/).
 - Bootstrap and verification scripts in [`scripts/`](scripts/).
+- Optional Discord gateway blueprint in [`docs/discord-gateway.md`](docs/discord-gateway.md).
 
 ## What this intentionally does not include
 
-- No GBrain.
 - No raw email archive.
 - No automatic email sending.
 - No ticket mutation.
@@ -65,6 +65,8 @@ Then install the profile templates into Hermes when you are ready:
 ```
 
 See [`docs/setup.md`](docs/setup.md) for the full setup flow.
+
+If you want Discord as the communication gateway, start with [`docs/discord-gateway.md`](docs/discord-gateway.md).
 
 ## Operating principle
 

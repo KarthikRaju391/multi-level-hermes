@@ -28,7 +28,3 @@ config/local.yaml
 node_modules/
 __pycache__/
 .pytest_cache/
-
-# Keep this repo GBrain-free at the starter stage
-/.gbrain/
-/gbrain-data/
