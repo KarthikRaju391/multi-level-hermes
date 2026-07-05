@@ -10,9 +10,9 @@ Hermes profile templates.
 
 Default behavior:
   1. Install Hermes with the official Linux/macOS installer if `hermes` is missing.
-  2. Create .env from .env.example if missing.
+  2. Create/update .env with detected local paths if missing.
   3. Create runtime memory/ and config/local.yaml.
-  4. Copy profiles/{personal,work,insights} into ~/.hermes/profiles/.
+  4. Copy profiles/{personal,work,insights} into Hermes home.
   5. Verify starter boundaries.
   6. Dry-run cron creation commands.
 
@@ -136,21 +136,8 @@ install_hermes_if_needed() {
   fi
 }
 
-create_env_if_missing() {
-  local env_file="$REPO_ROOT/.env"
-  local example_file="$REPO_ROOT/.env.example"
-
-  if [[ -f "$env_file" ]]; then
-    echo ".env already exists; leaving it unchanged."
-    return
-  fi
-
-  if [[ ! -f "$example_file" ]]; then
-    echo "Missing .env.example; cannot create .env" >&2
-    exit 1
-  fi
-
-  run cp "$example_file" "$env_file"
+update_env_file() {
+  run "$REPO_ROOT/scripts/write-env.sh"
 }
 
 bootstrap_starter() {
@@ -196,7 +183,7 @@ main() {
 
   echo "Installing Multi-level Hermes starter from: $REPO_ROOT"
   install_hermes_if_needed
-  create_env_if_missing
+  update_env_file
   bootstrap_starter
   verify_starter
   run_doctor_if_requested
@@ -207,7 +194,7 @@ main() {
 Install step complete.
 
 Next steps:
-1. Edit .env and config/local.yaml with local paths and account labels.
+1. Review .env and config/local.yaml for account labels and local preferences.
 2. Configure read-only email/ticket integrations in Hermes.
 3. If using Discord, create one bot named Hermes and set DISCORD_HERMES_BOT_TOKEN locally.
 4. Re-run cron setup with --apply only after integrations are configured:

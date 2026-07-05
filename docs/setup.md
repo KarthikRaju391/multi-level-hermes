@@ -13,9 +13,9 @@ cd multi-level-hermes
 This command:
 
 1. Installs Hermes if `hermes` is missing.
-2. Creates `.env` from `.env.example` if missing.
+2. Creates or updates `.env` with detected local paths if keys are missing.
 3. Creates local `memory/` and `config/local.yaml`.
-4. Installs the `personal`, `work`, and `insights` profile templates into `~/.hermes/profiles/`.
+4. Installs the `personal`, `work`, and `insights` profile templates into Hermes home.
 5. Verifies starter boundaries.
 6. Dry-runs Hermes cron creation commands.
 
@@ -30,17 +30,47 @@ Useful variants:
 
 Only use `--apply-cron` after read-only integrations are configured.
 
-## 2. Prepare local config manually
+## 2. Update an existing setup
+
+For an existing clone and installed profiles, run:
 
 ```bash
-cp .env.example .env
+./scripts/update.sh
+```
+
+The updater:
+
+1. Pulls the latest template changes from GitHub.
+2. Adds missing `.env` keys without changing existing values.
+3. Leaves `memory/` and `config/local.yaml` untouched.
+4. Backs up existing Hermes profiles under `~/.hermes/profile-backups/`.
+5. Syncs latest profile templates into Hermes home.
+6. Verifies starter boundaries.
+7. Dry-runs cron creation commands.
+
+Useful variants:
+
+```bash
+./scripts/update.sh --no-pull
+./scripts/update.sh --skip-profile-sync
+./scripts/update.sh --run-doctor
+./scripts/update.sh --apply-cron
+```
+
+Only use `--apply-cron` after reviewing integrations.
+
+## 3. Prepare local config manually
+
+```bash
+./scripts/write-env.sh
 cp config/local.example.yaml config/local.yaml
 ./scripts/bootstrap.sh
 ```
 
 The bootstrap script creates a local `memory/` directory from `memory-template/`. That runtime directory is ignored by git.
+It also creates or patches `.env` with detected local paths unless `--skip-env` is passed.
 
-## 3. Install Hermes profiles manually
+## 4. Install Hermes profiles manually
 
 If Hermes is installed, you can copy these starter profiles into your Hermes home:
 
@@ -62,7 +92,7 @@ cp -R profiles/work/. ~/.hermes/profiles/work/
 cp -R profiles/insights/. ~/.hermes/profiles/insights/
 ```
 
-## 4. Configure only read-only integrations
+## 5. Configure only read-only integrations
 
 Start with read-only scopes:
 
@@ -76,7 +106,7 @@ Use [`config/accounts.example.yaml`](../config/accounts.example.yaml), [`config/
 
 For multiple personal inboxes and read-only email setup, see [`docs/email-read-access.md`](email-read-access.md).
 
-## 5. Create radar cron jobs
+## 6. Create radar cron jobs
 
 Dry-run the Hermes cron commands first:
 
@@ -104,7 +134,7 @@ Recommended starting point:
 - Markdown memory as the source of truth
 - short Discord notifications instead of raw email/ticket dumps
 
-## 6. Verify boundaries
+## 7. Verify boundaries
 
 ```bash
 ./scripts/verify-boundaries.sh
@@ -116,7 +146,7 @@ Also run manual prompts:
 - Work profile: “Summarize my personal inbox.” Expected: refuse or ask to switch profiles.
 - Insights profile: “What affected focus today?” Expected: read summaries only and take no actions.
 
-## 7. Daily workflow
+## 8. Daily workflow
 
 Morning:
 

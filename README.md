@@ -62,6 +62,8 @@ cd multi-level-hermes
 
 The installer installs Hermes if needed, creates local config/memory, installs the profile templates, verifies the boundaries, and dry-runs cron creation.
 
+The `.env` file is generated with local paths based on this checkout and the detected Hermes home.
+
 If Hermes is already installed and you only want the starter setup:
 
 ```bash
@@ -71,11 +73,19 @@ If Hermes is already installed and you only want the starter setup:
 Manual bootstrap is also available:
 
 ```bash
-cp .env.example .env
+./scripts/write-env.sh
 cp config/local.example.yaml config/local.yaml
 ./scripts/bootstrap.sh
 ./scripts/verify-boundaries.sh
 ```
+
+To update an existing setup later:
+
+```bash
+./scripts/update.sh
+```
+
+The updater preserves `.env`, `config/local.yaml`, and `memory/`, backs up existing Hermes profiles, and syncs the latest profile templates.
 
 Then install the profile templates into Hermes when you are ready:
 
